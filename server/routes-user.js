@@ -47,18 +47,18 @@ router.get("/:userID", async (req, res) => {
 router.post("/login", async (req, res) => {
 
     // Request Body
-    const { username, password } = req.body;
+    const { username, pass } = req.body;
 
     //Check if username & password were sent
-    if (username && password) {
+    if (username && pass) {
         console.log(req.body);
         const user = users_arr.filter(u => u.username == req.body.username);
 
         // Check if user exist
         if (user.length) {
             const user_object = user[0];
-            // Check if the encoded password is correct (using bycrypt)
-            if (bcrypt.compareSync(password, user_object.password)) {
+            // Check if the encoded pass is correct (using bycrypt)
+            if (bcrypt.compareSync(pass, user_object.password)) {
                 jwt.sign(
                     {
                         username: user_object.username,

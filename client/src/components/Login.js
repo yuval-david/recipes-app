@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 export default function Login() {
 
@@ -15,10 +20,16 @@ export default function Login() {
         password: '',
         showPassword: false,
     });
+    const numbers = []
 
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
+        if (prop == "password") {
+            setPass(event.target.value);
+            setOneTryTap(true);
+            setPassError("");
+        }
     };
 
     const handleClickShowPassword = () => {
@@ -35,8 +46,45 @@ export default function Login() {
     // **************************************** //
 
     // States - form fields
-    const [username, setUsername] = useState();
-    const [usernameError, setUsernameError] = useState();
+    const [username, setUsername] = useState("");
+    const [pass, setPass] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [passError, setPassError] = useState("");
+    const [oneTryTap, setOneTryTap] = useState(false); //password
+    const [oneTryTapUsername, setOneTryTapUsername] = useState(false); //username
+
+
+    const sendForm = () => {
+        console.log('senForm function called');
+
+        // Validation Login Form - Front
+        if (username.length < 1) {
+            setUsernameError("The username is missing.");
+            setUsername("");
+            setOneTryTapUsername(true);
+        }
+        if (pass.length < 1) {
+            setPassError("Password is missing.");
+            setPass("");
+            setOneTryTap(true);
+        }
+        // If there is USER & PASSWORD => send LOGIN POST request
+        if (username.length > 0 && pass.length > 0) {
+            fetch("http://localhost:1000/users/login", {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, pass })
+            })
+                .then(details => details.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            setOneTryTapUsername(true);
+        }
+    };
 
 
     return (
@@ -46,23 +94,28 @@ export default function Login() {
                     <h1 className='main-title'>Login</h1>
                     <form>
                         <TextField
-                            error={username === ""}
+                            error={username.length == 0 && oneTryTapUsername}
                             id="outlined-error-helper-text"
                             label="Username"
                             defaultValue=""
-                            helperText="Incorrect entry."
+                            helperText={usernameError}
                             onChange={event => {
+                                setOneTryTapUsername(true);
                                 setUsername(event.target.value);
+                                setUsernameError("");
                             }}
                         />
                         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
-                                error={values.password === ""}
+                                error={pass === "" && oneTryTap}
                                 id="outlined-adornment-password"
                                 type={values.showPassword ? 'text' : 'password'}
                                 value={values.password}
-                                onChange={handleChange('password')}
+                                onChange={
+                                    handleChange('password')
+                                }
+                                helpertext={passError}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -77,17 +130,20 @@ export default function Login() {
                                 }
                                 label="Password"
                             />
+                            <label className='error-password'>{passError ? passError : ""}</label>
                         </FormControl>
+
+                        <Button onClick={sendForm} variant="contained">Submit</Button>
                     </form>
                 </div>
             </main>
 
             <aside>
                 <div className='bg-right-container'>
-                    <div className='big-word-bg'>Find</div>
-                    <div className='big-word-bg'>Share</div>
-                    <div className='big-word-bg'>Cook</div>
-                    <div className='big-word-bg'>Taste!</div>
+                    <div data-aos="fade-right" data-aos-duration="1000" className='big-word-bg'>Find</div>
+                    <div data-aos="fade-right" data-aos-delay="1000" data-aos-duration="700" className='big-word-bg'>Share</div>
+                    <div data-aos="fade-right" data-aos-delay="2000" data-aos-duration="700" className='big-word-bg'>Cook</div>
+                    <div data-aos="fade-right" data-aos-delay="3000" data-aos-duration="700" className='big-word-bg'>Taste!</div>
                 </div>
             </aside>
 
