@@ -40,7 +40,7 @@ html, body, input, button {
   background-color: #D9F8C4;
   color: #F9F9C5;
   background-image: url("./img/login-right-bg.jpg");
-  background-size: 100% auto;
+  background-size: 100% 100%;
   width: 30%;
 }
 

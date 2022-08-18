@@ -47,7 +47,7 @@ html, body, input, button {
         background-color: $green;
         color: $yellow;
         background-image: url('./img/login-right-bg.jpg');
-        background-size: 100% auto;
+        background-size: 100% 100%;
         width: 30%;
 
         &:after {

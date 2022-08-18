@@ -4,7 +4,7 @@ const router = require('express').Router();
 const sql_query = require('./query-promise');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const pass = require('./pass');
+const passSecert = require('./pass');
 
 // Array of all users
 let users_arr;
@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
                         user_id: user_object.userID,
                         first_name: user_object.first_name
                     },
-                    pass.JWT_Secret,
+                    passSecert.JWT_Secret,
                     { expiresIn: "10m" },
                     (err, token) => {
                         if (err) {
