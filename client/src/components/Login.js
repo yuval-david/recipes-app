@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
@@ -9,8 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
+import 'aos/dist/aos.css';
+
 AOS.init();
 
 export default function Login() {
@@ -52,7 +53,9 @@ export default function Login() {
     const [passError, setPassError] = useState("");
     const [oneTryTap, setOneTryTap] = useState(false); //password
     const [oneTryTapUsername, setOneTryTapUsername] = useState(false); //username
+    const [isLogged, setIsLogged] = useState(false);
 
+    let navigate = useNavigate();
 
     const sendForm = () => {
         console.log('senForm function called');
@@ -78,6 +81,8 @@ export default function Login() {
                 .then(details => details.json())
                 .then(data => {
                     console.log(data);
+                    localStorage.setItem("token", data.token);
+                    navigate("/home");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -87,11 +92,18 @@ export default function Login() {
     };
 
 
+    useEffect(() => {
+        let loginStatus = localStorage.getItem("token");
+        setIsLogged(loginStatus);
+    }, []);
+
+
     return (
         <div className='login-comp'>
             <main>
                 <div className='login-form-container'>
                     <h1 className='main-title'>Login</h1>
+                    <Link className='link-register' to="register">Don't have an account yet? Click here to register</Link>
                     <form>
                         <TextField
                             error={username.length == 0 && oneTryTapUsername}
@@ -146,6 +158,9 @@ export default function Login() {
                     <div data-aos="fade-right" data-aos-delay="3000" data-aos-duration="700" className='big-word-bg'>Taste!</div>
                 </div>
             </aside>
+
+
+            {isLogged ? <Navigate to="/home" /> : ""}
 
         </div>
     )

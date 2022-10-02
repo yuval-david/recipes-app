@@ -19,7 +19,7 @@ export default function CategoriesNav() {
 
     return (
         <div className='categories-nav-comp'>
-
+            
         </div>
     )
 }

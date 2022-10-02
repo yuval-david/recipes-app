@@ -22,6 +22,7 @@ html, body, input, button {
   font-size: 300%;
 }
 
+/********   LOGIN COMPONENT   ********/
 .login-comp {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -66,7 +67,7 @@ html, body, input, button {
 }
 
 .login-comp form {
-  margin-top: 4vw;
+  margin-top: 2vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -107,5 +108,48 @@ html, body, input, button {
   width: 70%;
   margin: auto;
   padding-top: 9vw;
+}
+
+.login-form-container .link-register {
+  margin-top: 3vw;
+  display: inline-block;
+  font-size: 90%;
+}
+
+/********   REGISTER COMPONENT   ********/
+/********   HOME PAGE   ********/
+.navbar-component {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #f3f3b6;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0.5vw 2vw;
+}
+
+.navbar-component nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-column-gap: 4vw;
+          column-gap: 4vw;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 120%;
+  padding-left: 2vw;
+}
+
+.navbar-component nav a {
+  color: #641a1a;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: system-ui;
+}
+
+.navbar-component nav a:hover {
+  text-decoration: underline;
 }
 /*# sourceMappingURL=style.css.map */
